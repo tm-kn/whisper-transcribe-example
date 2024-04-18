@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "whisper-transcribe-example"
+version = "0.1.0"
+description = ""
+authors = ["Tomasz Knapik <tomasz@knapik.net>"]
+license = "MIT"
+readme = "README.md"
+
+
+[tool.poetry.scripts]
+transcribe = 'whisper_transcribe_example.main:main'
+
+[tool.poetry.dependencies]
+python = "^3.12"
+openai = "^1.21.2"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

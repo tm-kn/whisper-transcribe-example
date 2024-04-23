@@ -15,7 +15,9 @@ class Segment(TypedDict):
     text: str
 
 
-def transcribe_files(file_paths: Sequence[pathlib.Path], *, language: str) -> Iterable[Segment]:
+def transcribe_files(
+    file_paths: Sequence[pathlib.Path], *, language: str
+) -> Iterable[Segment]:
     for file_path in file_paths:
         yield from transcribe_file(file_path, language=language)
 
@@ -24,7 +26,7 @@ def transcribe_file(file_path: pathlib.Path, *, language: str) -> Iterable[Segme
     logger.info("Transcribing file %s", file_path)
     client = openai.OpenAI()
     response = client.audio.transcriptions.with_raw_response.create(
-        file=pathlib.Path(file_path),
+        file=file_path,
         model="whisper-1",
         language=language,
         response_format="verbose_json",
@@ -34,24 +36,26 @@ def transcribe_file(file_path: pathlib.Path, *, language: str) -> Iterable[Segme
     yield from json_response["segments"]
 
 
-def write_segments_to_file(*, segments: Iterable[Segment], output_file: TextIO):
+def write_segments_to_file(*, segments: Iterable[Segment], output_file: TextIO) -> None:
     for segment in segments:
-        line = "".join([
-            str(segment["text"]),
-            "\n",
-        ])
+        line = "".join(
+            [
+                str(segment["text"]),
+                "\n",
+            ]
+        )
         output_file.write(line)
 
 
 def get_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument('filenames', nargs='+')
-    parser.add_argument('--output-file', default="out.txt")
-    parser.add_argument('--language', default="en")
+    parser.add_argument("filenames", nargs="+")
+    parser.add_argument("--output-file", default="out.txt")
+    parser.add_argument("--language", default="en")
     return parser.parse_args()
 
 
-def main():
+def main() -> None:
     args = get_args()
     filenames = [pathlib.Path(filename) for filename in args.filenames]
     segments = transcribe_files(filenames, language=args.language)

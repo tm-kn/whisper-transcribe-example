@@ -1,6 +1,6 @@
 # whisper-transcribe-example
 
-Get a transcription text file out of an audio or video file.
+Get a transcription text file out of an audio or video file with a CLI tool using OpenAI Whisper API.
 
 ## Installation
 

@@ -45,8 +45,6 @@ def write_segments_to_file(*, segments: Iterable[Segment], output_file: TextIO):
 
 def get_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    # Split files with ffmpeg if they are too big
-    # ffmpeg -i input_file.m4a -f segment -segment_time 00 -c copy out%03d.m4a
     parser.add_argument('filenames', nargs='+')
     parser.add_argument('--output-file', default="out.txt")
     parser.add_argument('--language', default="en")

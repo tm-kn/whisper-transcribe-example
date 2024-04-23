@@ -26,7 +26,7 @@ def transcribe_file(file_path: pathlib.Path, *, language: str) -> Iterable[Segme
     response = client.audio.transcriptions.with_raw_response.create(
         file=pathlib.Path(file_path),
         model="whisper-1",
-        language="en",
+        language=language,
         response_format="verbose_json",
         timestamp_granularities=["segment"],
     )
